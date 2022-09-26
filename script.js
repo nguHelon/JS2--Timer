@@ -1,6 +1,7 @@
 const hoursDiv = document.querySelector('#hours');
 const minutesDiv = document.querySelector('#minutes');
 const secondsDiv = document.querySelector('#seconds');
+const actions = Array.from(document.querySelectorAll('.actions'));
 
 // the default time
 let seconds = 0;
@@ -11,6 +12,9 @@ let hours = 0;
 let leadingSecond = "";
 let leadingMinute = "";
 let leadingHour = "";
+
+// interval variable 
+let intervalId;
 
 // the timer function
 const timer = () => {
@@ -49,4 +53,25 @@ const timer = () => {
     secondsDiv.innerText = leadingSecond;
 }
 
-setInterval(timer, 1000);
+// Buttons functionality
+
+actions.forEach((button) => {
+    button.addEventListener("click", (e) => {
+        let target = e.target;
+
+        if (target.classList.contains("start")) {
+            intervalId = setInterval(timer, 1000);
+        } else if (target.classList.contains("pause")) {
+            clearInterval(intervalId);
+            console.log(intervalId);
+        } else if (target.classList.contains("reset")) {
+            clearInterval(intervalId);
+            seconds = 0;
+            minutes = 0;
+            hours = 0;
+            hoursDiv.innerText = "00";
+            minutesDiv.innerText = "00";
+            secondsDiv.innerText = "00";
+        }
+    })
+})
